@@ -8,8 +8,7 @@ public class MicrogramApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MicrogramApplication.class, args);
-
-
+        System.out.println("Hello");
     }
 
 }
