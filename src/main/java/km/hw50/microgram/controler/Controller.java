@@ -7,15 +7,15 @@ public class Controller {
     private final PublicationRepository publicationRepo;
     private final CommentRepository commentRepo;
     private final LikeRepository likeRepo;
-    private final SubscriptionRepository subscriptionRepo;
+    private final SubscribtionRepository subscribtionRepo;
 
     public Controller(UserRepository userRepo, PublicationRepository publicationRepo,
                       CommentRepository commentRepo, LikeRepository likeRepo,
-                      SubscriptionRepository subscriptionRepo) {
+                      SubscribtionRepository subscriptionRepo) {
         this.userRepo = userRepo;
         this.publicationRepo = publicationRepo;
         this.commentRepo = commentRepo;
         this.likeRepo = likeRepo;
-        this.subscriptionRepo = subscriptionRepo;
+        this.subscribtionRepo = subscriptionRepo;
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 
 @Document
-public class Subscription {
+public class Subscribtion {
 
     @Id
     private String id;
@@ -14,7 +14,7 @@ public class Subscription {
     private String subscribiant;
     private LocalDate date;
 
-    public Subscription(String subscriber, String subscribiant, LocalDate date) {
+    public Subscribtion(String subscriber, String subscribiant, LocalDate date) {
         this.subscriber = subscriber;
         this.subscribiant = subscribiant;
         this.date = date;

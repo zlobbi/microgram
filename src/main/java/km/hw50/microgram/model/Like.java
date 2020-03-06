@@ -4,22 +4,44 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.Random;
+
+import static java.lang.String.valueOf;
 
 @Document
 public class Like {
+    private static Random r = new Random();
 
     @Id
     private String id;
-    private String userId;
+    private String likerId;
     private String likeFor;
-    private String objectId;
     private LocalDate date;
 
-    public Like(String userId, String likeFor, String objectId, LocalDate date) {
-        this.likeFor = likeFor;
-        this.userId = userId;
-        this.objectId = objectId;
-        this.date = date;
+//    public Like(String likerId, String likeFor, LocalDate date) {
+//        this.likeFor = likeFor;
+//        this.likerId = likerId;
+//        this.date = date;
+//    }
+    public static Like make(String likerId, String likeFor, LocalDate likeForDate) {
+        int t = LocalDate.now().compareTo(likeForDate);
+        Like l = new Like();
+        String id = valueOf((likerId + likeFor).hashCode());
+        l.setId(id);
+        l.setLikerId(likerId);
+        l.setLikeFor(likeFor);
+        l.setDate(LocalDate.now().minusDays(r.nextInt(t)+1));
+        return l;
+    }
+
+    @Override
+    public String toString() {
+        return "Like{" +
+                "id='" + id + '\'' +
+                ", likerId='" + likerId + '\'' +
+                ", likeFor='" + likeFor + '\'' +
+                ", date=" + date.toString() +
+                '}';
     }
 
     public String getLikeFor() {
@@ -38,21 +60,21 @@ public class Like {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getLikerId() {
+        return likerId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setLikerId(String likerId) {
+        this.likerId = likerId;
     }
 
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
+//    public String getObjectId() {
+//        return objectId;
+//    }
+//
+//    public void setObjectId(String objectId) {
+//        this.objectId = objectId;
+//    }
 
     public LocalDate getDate() {
         return date;

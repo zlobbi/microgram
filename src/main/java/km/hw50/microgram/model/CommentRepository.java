@@ -8,3 +8,5 @@ public interface CommentRepository extends CrudRepository <Comment, String> {
 // get comment for publication
 // get comment text
 // get comment date
+// delete comment
+// update or change comment
