@@ -9,14 +9,24 @@ import java.time.LocalDate;
 public class Publication {
     @Id
     private String id;
+    private String userId;
     private String image;
     private String description;
     private LocalDate date;
 
-    public Publication(String image, String description, LocalDate date) {
+    public Publication(String userId, String image, String description, LocalDate date) {
+        this.userId = userId;
         this.image = image;
         this.description = description;
         this.date = date;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getId() {

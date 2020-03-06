@@ -11,13 +11,23 @@ public class Like {
     @Id
     private String id;
     private String userId;
+    private String likeFor;
     private String objectId;
     private LocalDate date;
 
-    public Like(String userId, String objectId, LocalDate date) {
+    public Like(String userId, String likeFor, String objectId, LocalDate date) {
+        this.likeFor = likeFor;
         this.userId = userId;
         this.objectId = objectId;
         this.date = date;
+    }
+
+    public String getLikeFor() {
+        return likeFor;
+    }
+
+    public void setLikeFor(String likeFor) {
+        this.likeFor = likeFor;
     }
 
     public String getId() {
