@@ -55,7 +55,7 @@ public final class Generator {
     }
 
     public static String makeName() {
-        return makeGibberish(3,2);
+        return removeExtra.matcher(takeOneWord()).replaceAll("");
     }
 
     private static String takeOneWord() {
@@ -63,6 +63,7 @@ public final class Generator {
     }
 
     static final Pattern removeExtra = Pattern.compile("[.,;]+?");
+
     public static String makeEmail() {
         var prefix = removeExtra.matcher(makeGibberish(2,0)).replaceAll("").toLowerCase();
         var suffix = removeExtra.matcher(makeGibberish(2,0)).replaceAll("").toLowerCase();
