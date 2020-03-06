@@ -13,7 +13,7 @@ public class User {
     private String password;
     private int publicationsCount;
     private int subscribtionsCount;
-    private int followersCount;
+    private int subscribersCount;
 
     public User(String login, String email, String password) {
         this.login = login;
@@ -69,11 +69,11 @@ public class User {
         this.subscribtionsCount = subscribtionsCount;
     }
 
-    public int getFollowersCount() {
-        return followersCount;
+    public int getSubscribersCount() {
+        return subscribersCount;
     }
 
-    public void setFollowersCount(int followersCount) {
-        this.followersCount = followersCount;
+    public void setSubscribersCount(int subscribersCount) {
+        this.subscribersCount = subscribersCount;
     }
 }

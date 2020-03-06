@@ -1,4 +1,4 @@
-package kz.attractor.taskmanager.util;
+package km.hw50.microgram.util;
 
 import java.io.IOException;
 import java.nio.file.Files;

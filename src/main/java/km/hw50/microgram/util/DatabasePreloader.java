@@ -1,7 +1,6 @@
-package kz.attractor.taskmanager.util;
+package km.hw50.microgram.util;
 
-import kz.attractor.taskmanager.model.Task;
-import kz.attractor.taskmanager.model.TaskRepository;
+import km.hw50.microgram.model.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +9,17 @@ import org.springframework.context.annotation.Configuration;
 public class DatabasePreloader {
 
     @Bean
-    CommandLineRunner generateGibberish(TaskRepository repository) {
+    CommandLineRunner generateGibberish(UserRepository usersRepo, PublicationRepository publicationRepo,
+                                        CommentRepository commentRepo, SubscriptionRepository subscriptionRepo,
+                                        LikeRepository likeRepo) {
         return args -> {
-            repository.deleteAll();
-            var tasks = Task.makeCurrentMonthTasks();
-            repository.saveAll(tasks);
+            usersRepo.deleteAll();
+            publicationRepo.deleteAll();
+            commentRepo.deleteAll();
+            subscriptionRepo.deleteAll();
+            likeRepo.deleteAll();
+            var users = "";
+//            usersRep.saveAll(users);
         };
     }
 }
