@@ -2,6 +2,7 @@ package km.hw50.microgram.model;
 
 import km.hw50.microgram.util.Generator;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -16,21 +17,22 @@ import static java.lang.String.valueOf;
 public class Publication {
     @Id
     private String id;
-    private String userId;
+    @DBRef
+    private User user;
     private String image;
     private String description;
     private LocalDate date;
-    private int likesCount;
     private List<Comment> comments = new ArrayList<>();
+    private List<Like> likes = new ArrayList<>();
 
     private static Random r = new Random();
 
-    public static Publication make(String userId) {
+    public static Publication make(User user) {
         Publication p = new Publication();
         String image = Generator.makeName();
         p.setId(valueOf(Objects.hash(image)));
         p.setImage(image.toLowerCase() + ".jpg");
-        p.setUserId(userId);
+        p.setUser(user);
         p.setDescription(Generator.makeDescription());
         p.setDate(LocalDate.now().minusDays(r.nextInt(20)+2));
         return p;
@@ -40,19 +42,17 @@ public class Publication {
     public String toString() {
         return "Publication{" +
                 "id='" + id + '\'' +
-                ", userId='" + userId + '\'' +
+                ", userLogin='" + user.getLogin() + '\'' +
                 ", image='" + image + '\'' +
+                ", likes='" + (likes.size()) + '\'' +
+                ", comments='" + (comments.size()) + '\'' +
                 ", description=" + description + '\'' +
                 ", date=" + date.toString() +
                 '}';
     }
 
     public int getLikesCount() {
-        return likesCount;
-    }
-
-    public void plusLikesCount() {
-        this.likesCount = likesCount;
+        return likes.size();
     }
 
     public List<Comment> getComments() {
@@ -67,12 +67,32 @@ public class Publication {
         this.comments.add(comment);
     }
 
-    public String getUserId() {
-        return userId;
+    public void removeComment(Comment coment) {
+        this.comments.removeIf(c -> c.getId().equals(coment.getId()));
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
+
+    public void addLike(Like like) {
+        this.likes.add(like);
+    }
+
+    public void removeLike(Like like) {
+        this.likes.removeIf(l -> l.getId().equals(like.getId()));
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getId() {

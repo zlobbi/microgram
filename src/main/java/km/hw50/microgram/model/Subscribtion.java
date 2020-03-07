@@ -13,17 +13,17 @@ public class Subscribtion {
 
     @Id
     private String id;
-    private String subscriberId;
-    private String subscribiantId;
+    private User subscriber;
+    private User subscribiant;
     private LocalDate date;
 
     private static Random r = new Random();
 
-    public static Subscribtion make(String subscriberId, String subscribiantId) {
+    public static Subscribtion make(User subscriber, User subscribiant) {
         Subscribtion s = new Subscribtion();
-        s.setId(valueOf((subscriberId+subscribiantId).hashCode()));
-        s.setSubscriber(subscriberId);
-        s.setSubscribiant(subscribiantId);
+        s.setId(valueOf((subscriber.getId()+subscribiant.getId()).hashCode()));
+        s.setSubscriber(subscriber);
+        s.setSubscribiant(subscribiant);
         s.setDate(LocalDate.now().minusDays(r.nextInt(23)));
         return s;
     }
@@ -32,8 +32,8 @@ public class Subscribtion {
     public String toString() {
         return "Publication{" +
                 "id='" + id + '\'' +
-                ", subscriberId='" + subscriberId + '\'' +
-                ", subscribiantId='" + subscribiantId + '\'' +
+                ", subscriberLogin='" + subscriber.getLogin() + '\'' +
+                ", subscribiantLogin='" + subscribiant.getLogin() + '\'' +
                 ", date=" + date.toString() +
                 '}';
     }
@@ -46,20 +46,20 @@ public class Subscribtion {
         this.id = id;
     }
 
-    public String getSubscriber() {
-        return subscriberId;
+    public User getSubscriber() {
+        return subscriber;
     }
 
-    public void setSubscriber(String subscriberId) {
-        this.subscriberId = subscriberId;
+    public void setSubscriber(User subscriber) {
+        this.subscriber = subscriber;
     }
 
-    public String getSubscribiant() {
-        return subscribiantId;
+    public User getSubscribiant() {
+        return subscribiant;
     }
 
-    public void setSubscribiant(String subscribiant) {
-        this.subscribiantId = subscribiant;
+    public void setSubscribiant(User subscribiant) {
+        this.subscribiant = subscribiant;
     }
 
     public LocalDate getDate() {

@@ -15,8 +15,8 @@ public class Comment {
 
     @Id
     private String id;
-    private String userId;
-    private String commentFor;
+    private User commentator;
+    private Publication commentFor;
     private String text;
     private LocalDate date;
 
@@ -27,14 +27,14 @@ public class Comment {
 //        this.date = date;
 //    }
 
-    public static Comment make(String userId, String publicationId, LocalDate publicationDate) {
+    public static Comment make(User comentator, Publication commentFor, LocalDate publicationDate) {
         int t = LocalDate.now().compareTo(publicationDate);
         String text = Generator.makeDescription();
         Comment c = new Comment();
         String id = valueOf(text.indent(1).hashCode());
         c.setId(id);
-        c.setUserId(userId);
-        c.setCommentFor(publicationId);
+        c.setCommentator(comentator);
+        c.setCommentFor(commentFor);
         c.setText(text);
         c.setDate(LocalDate.now().minusDays(r.nextInt(t)+1));
         return c;
@@ -44,26 +44,26 @@ public class Comment {
     public String toString() {
         return "Comment{" +
                 "id='" + id + '\'' +
-                ", userId='" + userId + '\'' +
-                ", commentFor='" + commentFor + '\'' +
+                ", commentatorLogin='" + commentator.getLogin() + '\'' +
+                ", commentFor='" + commentFor.getImage() + '\'' +
                 ", text=" + text + '\'' +
                 ", date=" + date.toString() +
                 '}';
     }
 
-    public String getUserId() {
-        return userId;
+    public User getCommentator() {
+        return commentator;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setCommentator(User commentator) {
+        this.commentator = commentator;
     }
 
-    public String getCommentFor() {
+    public Publication getCommentFor() {
         return commentFor;
     }
 
-    public void setCommentFor(String commentFor) {
+    public void setCommentFor(Publication commentFor) {
         this.commentFor = commentFor;
     }
 

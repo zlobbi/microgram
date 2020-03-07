@@ -1,6 +1,7 @@
 package km.hw50.microgram.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -14,22 +15,20 @@ public class Like {
 
     @Id
     private String id;
-    private String likerId;
-    private String likeFor;
+    @DBRef
+    private Publication likeForPublication;
+    @DBRef
+    private User likeByUser;
     private LocalDate date;
 
-//    public Like(String likerId, String likeFor, LocalDate date) {
-//        this.likeFor = likeFor;
-//        this.likerId = likerId;
-//        this.date = date;
-//    }
-    public static Like make(String likerId, String likeFor, LocalDate likeForDate) {
+
+    public static Like make(User likeByUser, Publication likeForPublication, LocalDate likeForDate) {
         int t = LocalDate.now().compareTo(likeForDate);
         Like l = new Like();
-        String id = valueOf((likerId + likeFor).hashCode());
+        String id = valueOf((likeByUser + likeForPublication.getId()).hashCode());
         l.setId(id);
-        l.setLikerId(likerId);
-        l.setLikeFor(likeFor);
+        l.setLikerUser(likeByUser);
+        l.setLikeForPublication(likeForPublication);
         l.setDate(LocalDate.now().minusDays(r.nextInt(t)+1));
         return l;
     }
@@ -38,18 +37,18 @@ public class Like {
     public String toString() {
         return "Like{" +
                 "id='" + id + '\'' +
-                ", likerId='" + likerId + '\'' +
-                ", likeFor='" + likeFor + '\'' +
+                ", liker login='" + likeByUser.getLogin() + '\'' +
+                ", likeFor='" + likeForPublication.getImage() + '\'' +
                 ", date=" + date.toString() +
                 '}';
     }
 
-    public String getLikeFor() {
-        return likeFor;
+    public Publication getLikedComment() {
+        return likeForPublication;
     }
 
-    public void setLikeFor(String likeFor) {
-        this.likeFor = likeFor;
+    public void setLikeForPublication(Publication likeForPublication) {
+        this.likeForPublication = likeForPublication;
     }
 
     public String getId() {
@@ -60,21 +59,13 @@ public class Like {
         this.id = id;
     }
 
-    public String getLikerId() {
-        return likerId;
+    public User getLikdedUser() {
+        return likeByUser;
     }
 
-    public void setLikerId(String likerId) {
-        this.likerId = likerId;
+    public void setLikerUser(User likeByUser) {
+        this.likeByUser = likeByUser;
     }
-
-//    public String getObjectId() {
-//        return objectId;
-//    }
-//
-//    public void setObjectId(String objectId) {
-//        this.objectId = objectId;
-//    }
 
     public LocalDate getDate() {
         return date;
