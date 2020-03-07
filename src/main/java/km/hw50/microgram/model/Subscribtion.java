@@ -30,7 +30,7 @@ public class Subscribtion {
 
     @Override
     public String toString() {
-        return "Publication{" +
+        return "Subscriptions{" +
                 "id='" + id + '\'' +
                 ", subscriberLogin='" + subscriber.getLogin() + '\'' +
                 ", subscribiantLogin='" + subscribiant.getLogin() + '\'' +
