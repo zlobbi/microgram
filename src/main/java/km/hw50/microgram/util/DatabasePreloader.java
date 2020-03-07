@@ -4,11 +4,15 @@ import km.hw50.microgram.model.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.util.BsonUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 @Configuration
@@ -21,54 +25,55 @@ public class DatabasePreloader {
                                         LikeRepository likeRepo) {
         return args -> {
             // todo users repo initialization
-            System.out.println("\nUsers:");
             usersRepo.deleteAll();
             var users = User.makeUsers(10);
             usersRepo.saveAll(users);
-            usersRepo.findAll().forEach(u -> System.out.println(u));
 
 
             // todo publications repo initialization
-            System.out.println("\nPublications:");
             publicationRepo.deleteAll();
             int i = 0;
             String userId;
             List<Publication> publications = new ArrayList<>();
             while (i < 30) {
                 userId = users.get(r.nextInt(users.size())).getId();
-                publications.add(Publication.make(userId));
+                var u = usersRepo.findById(userId).get();
+                var p = Publication.make(userId);
+                publications.add(p);
+                u.addPublication(p);
+                usersRepo.save(u);
                 i++;
             }
             publicationRepo.saveAll(publications);
-            publicationRepo.findAll().forEach(p -> System.out.println(p));
-//            userId = users.get(4).getId();
-//            System.out.println(userId);
-//            var map = StreamSupport.stream(publicationRepo.findAll().spliterator(), true)
-//                    .collect(Collectors.groupingBy(Publication::getUserId, TreeMap::new, Collectors.toList()));
-//            map.get(userId).forEach((v) -> System.out.println(v.getDescription() + "  " + v.getUserId() + "\n"));
+            userId = users.get(4).getId();
+            System.out.println(userId);
+            var map = StreamSupport.stream(publicationRepo.findAll().spliterator(), true)
+                    .collect(Collectors.groupingBy(Publication::getUserId, TreeMap::new, Collectors.toList()));
+            map.get(userId).forEach((v) -> System.out.println(v.getDescription() + "  " + v.getUserId() + "\n"));
 
             //todo comments repo initialization
-            System.out.println("\nComments:");
             commentRepo.deleteAll();
             i = 0;
             List<Comment> comments = new ArrayList<>();
-            while(i < 20) {
+            while (i < 20) {
                 int pub = r.nextInt(publications.size());
                 String pubId = publications.get(pub).getId();
                 LocalDate pubDate = publications.get(pub).getDate();
-                String usId = users.get(r.nextInt(10)).getId();
-                comments.add(Comment.make(usId, pubId, pubDate));
+                String usId = users.get(r.nextInt(users.size())).getId();
+                var c = Comment.make(usId, pubId, pubDate);
+                var publ = publicationRepo.findById(pubId).get();
+                publ.addComment(c);
+                publicationRepo.save(publ);
+                comments.add(c);
                 i++;
             }
             commentRepo.saveAll(comments);
-            commentRepo.findAll().forEach(c -> System.out.println(c));
 
             //todo likes repo initialization
-            System.out.println("\nLikes:");
             likeRepo.deleteAll();
             i = 0;
             List<Like> likes = new ArrayList<>();
-            while(i < 30) {
+            while (i < 30) {
                 int pub = r.nextInt(publications.size());
                 String likerId = users.get(r.nextInt(users.size())).getId();
                 String pubId = publications.get(pub).getId();
@@ -77,9 +82,37 @@ public class DatabasePreloader {
                 i++;
             }
             likeRepo.saveAll(likes);
-            likeRepo.findAll().forEach(l -> System.out.println(l));
 
+            // todo subscribtion repo initialization
             subscribtionRepo.deleteAll();
+            i = 0;
+            List<Subscribtion> subscribtions = new ArrayList<>();
+            while (i < 20) {
+                int subT = r.nextInt(users.size() - 1);
+                int subR = subT + 1 <= users.size() ? subT + 1 : subT - 1;
+                var subscT = users.get(subT).getId();
+                var subscR = users.get(subR).getId();
+                var uSubT = usersRepo.findById(subscT).get();
+                var uSubR = usersRepo.findById(subscR).get();
+//                if(subscT.equals(uSubT.getId()))
+                uSubT.plusSubscribersCount();
+                uSubR.plusSubscribtionsCount();
+                usersRepo.save(uSubT);
+                usersRepo.save(uSubR);
+                subscribtions.add(Subscribtion.make(subscR, subscT));
+                i++;
+            }
+            subscribtionRepo.saveAll(subscribtions);
+            System.out.println("\nUsers:");
+            usersRepo.findAll().forEach(u -> System.out.println(u));
+            System.out.println("\nPublications:");
+            publicationRepo.findAll().forEach(p -> System.out.println(p));
+            System.out.println("\nComments:");
+            commentRepo.findAll().forEach(c -> System.out.println(c));
+            System.out.println("\nLikes:");
+            likeRepo.findAll().forEach(l -> System.out.println(l));
+            System.out.println("\nSubscribtions");
+            subscribtionRepo.findAll().forEach(s -> System.out.println(s));
 
         };
     }

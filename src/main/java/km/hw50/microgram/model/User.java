@@ -18,14 +18,11 @@ public class User {
     private String login;
     private String email;
     private String password;
-    private int subscribtionsCount = 0;
-    private int subscribersCount = 0;
-
-//    public User(String login, String email, String password) {
-//        this.login = login;
-//        this.email = email;
-//        this.password = password;
-//    }
+    private List<Publication> publications = new ArrayList<>();
+    private int subscribersCount;
+    private int subscribtionsCount;
+    private List<User> subscribtions = new ArrayList<>();
+    private List<User> subscribers = new ArrayList<>();
 
     public static User make() {
         User u = new User();
@@ -52,11 +49,63 @@ public class User {
                 ", login='" + login + '\'' +
                 ", email='" + email + '\'' +
                 ", password=" + password + '\'' +
-                ", subscribers=" + subscribersCount + '\'' +
-                ", subscribtions =" + subscribtionsCount +
+                ", subscribers=" + (subscribersCount) + '\'' +
+                ", subscribtions=" + (subscribtionsCount) + '\'' +
+                ", publications=" + (publications.size()) +
                 '}';
     }
 
+    // Publications actions -----------------------------
+    public List<Publication> getPublications() {
+        return publications;
+    }
+
+    public void setPublications(List<Publication> publications) {
+        this.publications = publications;
+    }
+
+    public void addPublication(Publication p) {
+        this.publications.add(p);
+    }
+
+    public void removePublication(Publication p) {
+        this.publications.removeIf(pu -> pu.getId().equals(p.getId()));
+    }
+
+    public int getPublicationsCount() {
+        return publications.size();
+    }
+
+    // Subscribtions actions -----------------------------
+
+    public void plusSubscribtionsCount() {
+        this.subscribtionsCount++;
+    }
+
+    public void minusSubscribtionsCount() {
+        this.subscribtionsCount--;
+    }
+
+    public int getSubscribtionsCount() {
+        return this.subscribtionsCount;
+    }
+
+
+    // Subscribers actions -----------------------------
+
+    public void plusSubscribersCount() {
+        this.subscribersCount++;
+    }
+
+    public void minusSubscribersCount() {
+        this.subscribersCount--;
+    }
+
+    public int getSubscribersCount() {
+       return this.subscribersCount;
+    }
+
+    // Default actions
     public String getId() {
         return id;
     }
@@ -87,29 +136,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int SubscribtionsCount() {
-        return subscribtionsCount;
-    }
-
-    public void plusSubscribtionsCount() {
-        this.subscribtionsCount++;
-    }
-
-    public void minusSubscribtionsCount() {
-        this.subscribersCount--;
-    }
-
-    public int getSubscribersCount() {
-        return subscribersCount;
-    }
-
-    public void plusSubscribersCount() {
-        this.subscribersCount++;
-    }
-
-    public void minusSbscribersCount() {
-        this.subscribersCount--;
     }
 }

@@ -4,20 +4,38 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.Random;
+
+import static java.lang.String.valueOf;
 
 @Document
 public class Subscribtion {
 
     @Id
     private String id;
-    private String subscriber;
-    private String subscribiant;
+    private String subscriberId;
+    private String subscribiantId;
     private LocalDate date;
 
-    public Subscribtion(String subscriber, String subscribiant, LocalDate date) {
-        this.subscriber = subscriber;
-        this.subscribiant = subscribiant;
-        this.date = date;
+    private static Random r = new Random();
+
+    public static Subscribtion make(String subscriberId, String subscribiantId) {
+        Subscribtion s = new Subscribtion();
+        s.setId(valueOf((subscriberId+subscribiantId).hashCode()));
+        s.setSubscriber(subscriberId);
+        s.setSubscribiant(subscribiantId);
+        s.setDate(LocalDate.now().minusDays(r.nextInt(23)));
+        return s;
+    }
+
+    @Override
+    public String toString() {
+        return "Publication{" +
+                "id='" + id + '\'' +
+                ", subscriberId='" + subscriberId + '\'' +
+                ", subscribiantId='" + subscribiantId + '\'' +
+                ", date=" + date.toString() +
+                '}';
     }
 
     public String getId() {
@@ -29,19 +47,19 @@ public class Subscribtion {
     }
 
     public String getSubscriber() {
-        return subscriber;
+        return subscriberId;
     }
 
-    public void setSubscriber(String subscriber) {
-        this.subscriber = subscriber;
+    public void setSubscriber(String subscriberId) {
+        this.subscriberId = subscriberId;
     }
 
     public String getSubscribiant() {
-        return subscribiant;
+        return subscribiantId;
     }
 
     public void setSubscribiant(String subscribiant) {
-        this.subscribiant = subscribiant;
+        this.subscribiantId = subscribiant;
     }
 
     public LocalDate getDate() {

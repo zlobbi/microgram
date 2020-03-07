@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -18,15 +20,10 @@ public class Publication {
     private String image;
     private String description;
     private LocalDate date;
+    private int likesCount;
+    private List<Comment> comments = new ArrayList<>();
 
     private static Random r = new Random();
-
-//    public Publication(String userId, String image, String description, LocalDate date) {
-//        this.userId = userId;
-//        this.image = image;
-//        this.description = description;
-//        this.date = date;
-//    }
 
     public static Publication make(String userId) {
         Publication p = new Publication();
@@ -48,6 +45,26 @@ public class Publication {
                 ", description=" + description + '\'' +
                 ", date=" + date.toString() +
                 '}';
+    }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public void plusLikesCount() {
+        this.likesCount = likesCount;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 
     public String getUserId() {
