@@ -34,6 +34,12 @@ public class User {
         return u;
     }
 
+    public static User make(String login) {
+        User u = new User();
+        u.setLogin(login);
+        return u;
+    }
+
     public static List<User> makeUsers(int count) {
         List<User> users = new ArrayList<>();
         while (users.size() != count) {

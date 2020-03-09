@@ -38,6 +38,10 @@ public class DatabasePreloader {
                 usersRepo.save(u);
                 i++;
             }
+//            var ser = User.make("kad");
+//            usersRepo.save(ser);
+//            var us = usersRepo.findBylogin("kad");
+//            System.out.println(us);
 //            publicationRepo.saveAll(publications);
 //            userId = users.get(4).getId();
 //            System.out.println(userId);
