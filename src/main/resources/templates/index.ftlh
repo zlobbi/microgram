@@ -18,7 +18,7 @@
                 <p>likes ${pub.getLikesCount()}</p>
                 <p>-----------------------Comments--------------------</p>
                 <#list pub.comments as com>
-                    <p>${com.date} User: ${com.commentator.login}: ${com.text}?${com.text}:"no comments"</p>
+                    <p> ${com.date} User: ${com.commentator.login}: ${com.text}</p>
                 </#list>
             </#list>
             <p>--------------------------------------------------------</p>
